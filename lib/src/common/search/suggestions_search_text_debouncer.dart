@@ -37,7 +37,7 @@ class _SuggestionsSearchTextDebouncerState
   }
 
   void onChange() {
-    if (widget.controller.text == lastTextValue) return;
+    //if (widget.controller.text == lastTextValue) return;
     lastTextValue = widget.controller.text;
 
     Duration? debounceDuration = widget.debounceDuration;
