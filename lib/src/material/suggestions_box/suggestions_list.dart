@@ -4,9 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/src/keyboard_suggestion_selection_notifier.dart';
-import 'package:flutter_typeahead/src/should_refresh_suggestion_focus_index_notifier.dart';
 import 'package:flutter_typeahead/src/material/suggestions_box/suggestions_box.dart';
 import 'package:flutter_typeahead/src/material/suggestions_box/suggestions_box_decoration.dart';
+import 'package:flutter_typeahead/src/should_refresh_suggestion_focus_index_notifier.dart';
 import 'package:flutter_typeahead/src/typedef.dart';
 
 /// Renders all the suggestions using a ListView as default.  If
@@ -255,33 +255,35 @@ class _SuggestionsListState<T> extends State<SuggestionsList<T>>
 
   @override
   Widget build(BuildContext context) {
-    // bool isEmpty =
-    //     this._suggestions?.length == 0 && widget.controller!.text == "";
-    // if ((this._suggestions == null || isEmpty) &&
-    //     this._isLoading == false &&
-    //     this._error == null) return Container();
-
     Widget child;
-    if (this._isLoading!) {
-      if (widget.hideOnLoading!) {
-        child = Container(height: 0);
-      } else {
-        child = createLoadingWidget();
-      }
-    } else if (this._error != null) {
-      if (widget.hideOnError!) {
-        child = Container(height: 0);
-      } else {
-        child = createErrorWidget();
-      }
-    } else if (this._suggestions!.isEmpty) {
-      if (widget.hideOnEmpty!) {
-        child = Container(height: 0);
-      } else {
-        child = createNoItemsFoundWidget();
-      }
+    bool isEmpty =
+        this._suggestions?.length == 0 && widget.controller!.text == "";
+    if ((this._suggestions == null || isEmpty) &&
+        this._isLoading == false &&
+        this._error == null) {
+      child = createNoItemsFoundWidget();
     } else {
-      child = createSuggestionsWidget();
+      if (this._isLoading!) {
+        if (widget.hideOnLoading!) {
+          child = Container(height: 0);
+        } else {
+          child = createLoadingWidget();
+        }
+      } else if (this._error != null) {
+        if (widget.hideOnError!) {
+          child = Container(height: 0);
+        } else {
+          child = createErrorWidget();
+        }
+      } else if (this._suggestions!.isEmpty) {
+        if (widget.hideOnEmpty!) {
+          child = Container(height: 0);
+        } else {
+          child = createNoItemsFoundWidget();
+        }
+      } else {
+        child = createSuggestionsWidget();
+      }
     }
 
     final animationChild = widget.transitionBuilder != null
